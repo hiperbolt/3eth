@@ -24,7 +24,9 @@ def loginHandler(client, username, password):
         print("password: " + password)
 
     byted_salt = str.encode(salt)
-    if hash == pbkdf2_sha256.encrypt(password, rounds=config.iterations, salt=byted_salt):
+    calculated_hash = pbkdf2_sha256.encrypt(password, rounds=config.iterations, salt=byted_salt)
+    print("hash: " + hash + " calculated_hash: " + calculated_hash + " salt: " + salt)
+    if hash == calculated_hash:
             response["success"] = True
     
     if not response["success"]:
