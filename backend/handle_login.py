@@ -5,10 +5,6 @@ from datetime import datetime, timedelta
 import config
 from flask import request
 
-iterations = 6
-
-
-
 def loginHandler(client, username, password):
     response = {
         "success" : False,
@@ -23,9 +19,13 @@ def loginHandler(client, username, password):
     query_job = client.query(query)
     rows = query_job.result()
     for row in rows: # There should always be only one row, since usernames are unique
-        for (hash, salt) in row:
-            if hash == pbkdf2_sha256.hash(password, salt):
-                response["success"] = True
+        hash = row[0]
+        salt = row[1]
+        print("password: " + password)
+
+    byted_salt = str.encode(salt)
+    if hash == pbkdf2_sha256.encrypt(password, rounds=config.iterations, salt=byted_salt):
+            response["success"] = True
     
     if not response["success"]:
         response["message"] = "Unauthorized"

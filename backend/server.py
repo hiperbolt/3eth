@@ -22,7 +22,7 @@ def returnPageByIndex(index, numElements):
 
 @app.route('/api/v1/publicQuery/<searchTerm>', methods=['GET'])
 def searchByTerm(searchTerm):
-    return searchByTerm.returnSearchByTerm(client)
+    return searchByTerm.returnSearchByTerm(client, searchTerm)
 
 @app.route('/api/v1/ui/menuEntries', methods=['GET'])
 def returnMenuEntries():
@@ -40,6 +40,12 @@ def returnAuthToken(username, password):
 def returnTokenValidation():
     return validateToken.grab(client)
 
+@app.route('/api/v1/private/insertProduct', methods=['PUT'])
+def insertProduct():
+    if validateToken.grab(client)["success"] == True:
+        return insertProduct.insert(client)
+    else:
+        return "Unauthorized", 401
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
