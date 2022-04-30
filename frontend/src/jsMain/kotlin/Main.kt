@@ -16,14 +16,20 @@ import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.attributes.placeholder
 import org.jetbrains.compose.web.dom.*
 import org.jetbrains.compose.web.renderComposable
+import org.w3c.dom.HTMLInputElement
+import views.loginView
+import views.productsView
+import views.searchView
 
 fun main() {
 
     renderComposable(rootElementId = "root") {
-        var title by remember { mutableStateOf("") }
-        var headerInfo by remember { mutableStateOf(HeaderInfo(emptyList())) }
+        var title by remember { mutableStateOf("3Eth") }
+        var headerInfo by remember { mutableStateOf(HeaderInfo(listOf(MenuItem("Products", "products")))) }
         var footerInfo by remember { mutableStateOf(FooterInfo(emptyList())) }
         var pageInfo by remember { mutableStateOf(PageInfo(title, headerInfo, footerInfo)) }
+        var searchValue by remember { mutableStateOf("") }
+
         val coroutineScope = rememberCoroutineScope()
         document.title = title
 
@@ -36,52 +42,17 @@ fun main() {
                     Text("Home")
                 }
 
-                route("/about") {
-                    Text("About")
+                route("/products") {
+                    productsView(coroutineScope)
                 }
 
                 route("/login") {
-                    Form {
-
-
-                        Div {
-                            Label("username") {
-                                Text("Username: ")
-                            }
-                            Input(type = InputType.Text) {
-                                id("username")
-                                classes("form-control")
-                                placeholder("Username")
-                            }
-                        }
-
-                        Div {
-                            Label("password") {
-                                Text("Password: ")
-                            }
-                            Input(type = InputType.Password) {
-                                id("password")
-                                classes("form-control")
-                                placeholder("Password")
-                            }
-                        }
-
-                        Div {
-                            Input(type = InputType.Button) {
-                                classes("btn btn-primary")
-                                value("Login")
-                                onClick {
-                                    coroutineScope.launch {
-                                        val result = window.fetch(Constants.API_URL + "/api/v1/private/getToken").await().json().await()
-
-
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    loginView(coroutineScope)
                 }
 
+                route("/search") {
+                    searchView(searchValue, coroutineScope)
+                }
             }
         }
     }

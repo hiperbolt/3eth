@@ -1,6 +1,7 @@
 package partials
 
 import androidx.compose.runtime.Composable
+import kotlinx.browser.window
 import models.HeaderInfo
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.dom.*
@@ -40,7 +41,10 @@ fun header(title: String, headerInfo: HeaderInfo) {
                         attr("placeholder", "Search")
                         attr("aria-label", "Search")
                     }
-                    Button({ classes("btn", "btn-outline-success"); attr("type", "submit")}) {
+                    Button({ classes("btn", "btn-outline-success"); attr("type", "button"); onClick {
+                        window.location.href = "#/search"
+
+                    }}) {
                         Text("Search")
                     }
                 }
