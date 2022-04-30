@@ -24,8 +24,16 @@ fun header(title: String, headerInfo: HeaderInfo) {
                             }
                         }
                     }
+
+
+                    Li({ classes("nav-item")}) {
+                        A("#/login", { classes("nav-link")}) {
+                            Text("Login")
+                        }
+                    }
+
                 }
-                Form("https://jetbrains.com/compose/search", { classes("d-flex","float-end"); attr("method", "get")}) {
+                Form("#", { classes("d-flex","float-end"); attr("method", "get")}) {
                     Input(InputType.Text) {
                         classes("form-control", "me-2")
                         attr("name", "q")

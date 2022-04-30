@@ -3,8 +3,8 @@ import org.jetbrains.compose.web.dom.*
 
 @Composable
 fun loginModal() {
-    Div({ classes("modal") }) {
-        Div({ classes("model-dialog") }) {
+    Div({ classes("modal"); id("loginModal") }) {
+        Div({ classes("modal-dialog", "modal-dialog-centered", "modal-dialog-scrollable") }) {
             Div({ classes("modal-content") }) {
                 Div({ classes("modal-header") }) {
                     H5({ classes("modal-title") }) {
